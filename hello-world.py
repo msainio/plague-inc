@@ -1,3 +1,3 @@
 print("Hello World!")
-print(":D\n")
+print("^-^")
 print("The Plague Doctors are here to help you")
