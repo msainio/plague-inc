@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+    
+<head>
+    <p>
+    <meta charset='UTF-8'>
+    <title>Aava's page?</title>
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", function() {
+  function createParagraph() {
+    let para = document.createElement('p');
+    para.textContent = "It's Aava";
+    document.body.appendChild(para);
+  }
+
+  const buttons = document.querySelectorAll('button');
+
+  for(let i = 0; i < buttons.length ; i++) {
+    buttons[i].addEventListener('click', createParagraph);
+  }
+});
+
+</script>
+</p>
+</head>
+
+<body>
+<div class= 'content'>
+<h1>This is my page</h1>
+<h2>Who is me?</h2>
+<button>Press to find out!</button>
+</div>
+</body>
+
+</html>
