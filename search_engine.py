@@ -14,7 +14,7 @@ except FileNotFoundError:
 
 # Here we define some useful variables and create a matrix out of the data set.
 
-cv = CountVectorizer(lowercase=True, binary=True)
+cv = CountVectorizer(lowercase=True, binary=True, token_pattern=r"(?u)\b\w+\b") # token pattern set to one alphanumeric
 sparse_matrix = cv.fit_transform(documents)
 sparse_td_matrix = sparse_matrix.T.tocsr()
 t2i = cv.vocabulary_
