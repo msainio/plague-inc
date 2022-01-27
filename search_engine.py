@@ -46,12 +46,13 @@ while query != "":
         hits_matrix = eval(rewrite_query(query))
         hits_list = list(hits_matrix.nonzero()[1])
         print()
-        print("Found {} matching documents:".format(len(hits_list)))
-        print("Displayed below are the first ten matches.")
+        print("Found {} matching documents.".format(len(hits_list)))
+        num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
+        print()
         for i, doc_idx in enumerate(hits_list):
-            if i > 9: # only display the first ten documents
+            if i > (num_matches-1): # limits the amount of matches displayed
                 break
-            print("Match #{:d}: {:s}".format(i, documents[doc_idx]))
+            print("Match {:d}: {:s}".format(i+1, documents[doc_idx][0:99])) # sets the amount of characters to be displayed
         print()
 
     except:
