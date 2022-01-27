@@ -10,9 +10,16 @@ article = corpus.split("</article>")
 
 document.close()
 
-for x in soup.find_all('article'):
-    print(x.get('name'))
+list_of_articles = []
 
+for x in soup.find_all('article'):
+    list_of_articles.append((x.get('name')))
+
+print(list_of_articles)
+
+
+#namelist.append(name)
+#print(x.get('name'))
 #articles = soup.article['name']
 #x = soup.find_all('</article>')
 #for x in range(len(articles)):
