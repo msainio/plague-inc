@@ -43,29 +43,41 @@ def rewrite_query(query):
 
 # Here we ask the user for a query, call the functions above and display the results.
 
-print("Welcome to the Plague Engine!")
-print("You can search our database by submitting a query in the input field below.")
-print("To exit the program, enter an empty string when prompted.")
-print()
-query = str(input("Please type your query here: "))
-while query != "":
+def init_query(query):
     try:
+        print(query)
         hits_matrix = eval(rewrite_query(query))
         hits_list = list(hits_matrix.nonzero()[1])
         print()
+        if len(hits_list) == 0:
+            raise ValueError
         print("Found {} matching documents.".format(len(hits_list)))
-        num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
+        num_matches = input("Please enter the maximum amount of matches to be displayed: ")
+        if type(num_matches) != int:
+            raise TypeError
         print()
         for i, doc_idx in enumerate(hits_list):
             if i > (num_matches-1): # limits the amount of matches displayed
                 break
             print("Match {:d}: {:s}".format(i+1, corpus_list[doc_idx][15:114])) # sets the amount of characters to be displayed
         print()
+    except ValueError:
+        print("No match found. Please enter another query.")
+        print()
+    except TypeError:
+        print("The amount of matches to be displayed must be an integer.")
+        print()
 
-    except:
-       print("No match found. Please enter another query.")
-       print()
-
+def main():
+    print("Welcome to the Plague Engine!")
+    print("You can search our database by submitting a query in the input field below.")
+    print("To exit the program, enter an empty string when prompted.")
+    print()
     query = str(input("Please type your query here: "))
+    while query != "":
+        init_query(query)
+        query = str(input("Please type your query here: "))
+    print("No query entered. Program terminated.")
+    exit()
 
-print("No query entered. Program terminated.")
+main()
