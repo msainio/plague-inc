@@ -1,5 +1,6 @@
 # This is the code for the search engine task
 from sklearn.feature_extraction.text import CountVectorizer
+import math
 
 # Here we define the dataset for the search engine
 url = "enwiki-corpus.txt"
@@ -56,6 +57,9 @@ def init_query(query):
         print("No match found. Please enter another query.")
         print()
 
+def init_relquery(rquery):
+    print("hi")
+
 # This is the main program.
 
 def main():
@@ -63,11 +67,24 @@ def main():
     print("You can search our database by submitting a query in the input field below.")
     print("To exit the program, enter an empty string when prompted.")
     print()
-    query = str(input("Please type your query here: "))
-    while query != "":
-        init_query(query)
+    # Asking the user which type of a search they want to perform
+    searchtype = str(input("Would you like to perform a Boolean search or a Relevance-Ranked search? Enter B for Boolean and R for Relevance-Ranked. "))
+    if searchtype == "B":
         query = str(input("Please type your query here: "))
-    print("No query entered. Program terminated.")
-    exit()
+        while query != "":
+            init_query(query)
+            query = str(input("Please type your query here: "))
+        print("No query entered. Program terminated.")
+        exit()
+    elif searchtype == "R":
+        rquery = str(input("Please type your query here: "))
+        while rquery != "":
+             init_relquery(rquery)
+             query = str(input("Please type your query here: "))
+        print("No query entered. Program terminated.")
+        exit()
+    else:
+        print("Invalid option entered. Program terminated.")
+        exit()
 
 main()
