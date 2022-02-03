@@ -1,39 +1,32 @@
-# This is the code for the search engine task.
-
-# Here we import the CountVectorizer module necessary for the engine.
+# This is the code for the search engine task
 from sklearn.feature_extraction.text import CountVectorizer
 
-# Here we define the data set used in the search engine.
+# Here we define the dataset for the search engine
+url = "enwiki-corpus.txt"
+
 try:
-   # documents = ["This is a silly example",
-   #              "A better example",
-   #              "Nothing to see here",
-   #              "This is a great and long example"]
-    document = open("enwiki-corpus.txt", "r")
+    document = open(url, "r")
     corpus = document.read().replace('\n', ' ').replace('>', '')
     document.close()
     corpus_list = corpus.split("</article")
-    #print(corpus_list)
-
-
 except FileNotFoundError:
     print("One or more of the input documents was not found.")
 
-# Here we define some useful variables and create a matrix out of the data set.
+# Here we transform the dataset into a matrix
 
 cv = CountVectorizer(lowercase=True, binary=True, token_pattern=r"(?u)\b\w+\b") # token pattern set to one alphanumeric
 sparse_matrix = cv.fit_transform(corpus_list)
 sparse_td_matrix = sparse_matrix.T.tocsr()
 t2i = cv.vocabulary_
 
-# Here we define the operators that can be used in queries.
+# Here we define the search operators
 
 d = {"and": "&", "AND": "&",
      "or": "|", "OR": "|",
      "not": "1 -", "NOT": "1 -",
      "(": "(", ")": ")"}
 
-# These functions parse the query entered by the user.
+# These functions parse the query entered by the user
 
 def rewrite_token(t):
     return d.get(t, 'sparse_td_matrix[t2i["{:s}"]].todense()'.format(t))
@@ -41,7 +34,7 @@ def rewrite_token(t):
 def rewrite_query(query):
     return " ".join(rewrite_token(t) for t in query.split())
 
-# Here we ask the user for a query, call the functions above and display the results.
+# This function executes the query and displays the results
 
 def init_query(query):
     try:
@@ -52,21 +45,18 @@ def init_query(query):
         if len(hits_list) == 0:
             raise ValueError
         print("Found {} matching documents.".format(len(hits_list)))
-        num_matches = input("Please enter the maximum amount of matches to be displayed: ")
-        if type(num_matches) != int:
-            raise TypeError
+        num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
         print()
         for i, doc_idx in enumerate(hits_list):
             if i > (num_matches-1): # limits the amount of matches displayed
                 break
             print("Match {:d}: {:s}".format(i+1, corpus_list[doc_idx][15:114])) # sets the amount of characters to be displayed
         print()
-    except ValueError:
+    except:
         print("No match found. Please enter another query.")
         print()
-    except TypeError:
-        print("The amount of matches to be displayed must be an integer.")
-        print()
+
+# This is the main program.
 
 def main():
     print("Welcome to the Plague Engine!")
