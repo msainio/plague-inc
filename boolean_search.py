@@ -4,13 +4,30 @@ from sklearn.feature_extraction.text import CountVectorizer
 # Here we define the dataset for the search engine
 url = "enwiki-corpus.txt"
 
-try:
-    document = open(url, "r")
-    corpus = document.read().replace('\n', ' ').replace('>', '')
-    document.close()
-    corpus_list = corpus.split("</article")
-except FileNotFoundError:
-    print("One or more of the input documents was not found.")
+corpus_list = []
+name_list = []
+#try:
+#    document = open(url, "r")
+#    corpus = document.read().replace('\n', ' ').replace('>', '')
+#    document.close()
+#    corpus_list = corpus.split("</article")
+
+#except FileNotFoundError:
+#    print("One or more of the input documents was not found.")
+
+import requests
+import re
+from bs4 import BeautifulSoup
+
+document = open("enwiki-corpus.txt", "r")
+corpus = document.read().replace('\n', ' ')
+document.close()
+soup = BeautifulSoup(corpus, "html.parser")
+for article in soup.find_all('article'):
+    corpus_list.append(article.contents.pop())
+    name_list.append(article.get('name'))
+
+#import ipdb; ipdb.set_trace()	#debugging tool recommended by Raul. use 's', 'n', 'b' and 'c' to navigate and place breakpoints. 
 
 # Here we transform the dataset into a matrix
 
@@ -50,7 +67,7 @@ def init_query(query):
         for i, doc_idx in enumerate(hits_list):
             if i > (num_matches-1): # limits the amount of matches displayed
                 break
-            print("Match {:d}: {:s}".format(i+1, corpus_list[doc_idx][15:114])) # sets the amount of characters to be displayed
+            print("Match {:d}: {:10s} -> {:s}".format(i+1, name_list[doc_idx], corpus_list[doc_idx][:99])) # sets the amount of characters to be displayed
         print()
     except:
         print("No match found. Please enter another query.")
