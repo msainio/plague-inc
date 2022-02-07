@@ -1,7 +1,7 @@
-# This is the code for the search engine task
+# This is the code for the search engine task. First we import modules we need for this.
 from sklearn.feature_extraction.text import CountVectorizer
 import math
-
+import numpy as np
 import requests
 import re
 from bs4 import BeautifulSoup
@@ -35,6 +35,12 @@ cv = CountVectorizer(lowercase=True, binary=True, token_pattern=r"(?u)\b\w+\b") 
 sparse_matrix = cv.fit_transform(corpus_list)
 sparse_td_matrix = sparse_matrix.T.tocsr()
 t2i = cv.vocabulary_
+
+
+cv_r = CountVectorizer(lowercase=True, token_pattern=r"(?u)\b\w+\b")
+dense_matrix = cv_r.fit_transform(corpus_list).T.todense()
+# dense_td_matrix = dense_matrix.T.tocsr()
+t2i_r = cv_r.vocabulary_
 
 # Here we define the search operators
 
@@ -74,7 +80,9 @@ def init_query(query):
         print()
 
 def init_relquery(rquery):
-    print("hi")
+    try:
+        print(rquery)
+        hits
 
 # This is the main program.
 
@@ -84,15 +92,18 @@ def main():
     print("To exit the program, enter an empty string when prompted.")
     print()
     # Asking the user which type of a search they want to perform
-    searchtype = str(input("Would you like to perform a Boolean search or a Relevance-Ranked search? Enter B for Boolean and R for Relevance-Ranked. "))
-    if searchtype == "B":
+    print("Would you like to perform a Boolean search or a Relevance-Ranked search?
+    searchtype = str(input("Enter B for Boolean or R for Relevance-Ranked. "))
+    if searchtype == "B" or "b":
+        prep_boolean()
         query = str(input("Please type your query here: "))
         while query != "":
             init_query(query)
             query = str(input("Please type your query here: "))
         print("No query entered. Program terminated.")
         exit()
-    elif searchtype == "R":
+    elif searchtype == "R" or "r":
+        prep_ranked()
         rquery = str(input("Please type your query here: "))
         while rquery != "":
              init_relquery(rquery)
