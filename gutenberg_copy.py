@@ -17,10 +17,8 @@ for article in soup.find_all('article'):
     corpus_list.append(article.contents.pop())
     name_list.append(article.get('name'))
 
-gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
-g_matrix = gv.fit_transform(corpus_list).T.tocsr()
-
-def search_gutenberg(query_string):
+    gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
+    g_matrix = gv.fit_transform(corpus_list).T.tocsr()
 
     # Vectorize query string
     query_vec = gv.transform([ query_string ]).tocsc()
