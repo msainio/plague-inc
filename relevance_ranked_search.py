@@ -2,14 +2,30 @@
 from sklearn.feature_extraction.text import CountVectorizer
 import math
 
+import requests
+import re
+from bs4 import BeautifulSoup
+
 # Here we define the dataset for the search engine
 url = "enwiki-corpus.txt"
 
+corpus_list = []
+name_list = []
+
 try:
     document = open(url, "r")
-    corpus = document.read().replace('\n', ' ').replace('>', '')
+    corpus = document.read().replace('\n', ' ')
     document.close()
-    corpus_list = corpus.split("</article")
+    soup = BeautifulSoup(corpus, "html.parser")
+    for article in soup.find_all('article'):
+        corpus_list.append(article.contents.pop())
+        name_list.append(article.get('name'))
+
+#    document = open(url, "r")
+#    corpus = document.read().replace('\n', ' ').replace('>', '')
+#    document.close()
+#    corpus_list = corpus.split("</article")
+
 except FileNotFoundError:
     print("One or more of the input documents was not found.")
 
@@ -51,7 +67,7 @@ def init_query(query):
         for i, doc_idx in enumerate(hits_list):
             if i > (num_matches-1): # limits the amount of matches displayed
                 break
-            print("Match {:d}: {:s}".format(i+1, corpus_list[doc_idx][15:114])) # sets the amount of characters to be displayed
+            print("Match {:d}: {:10s} -> {:s}".format(i+1, name_list[doc_idx], corpus_list[doc_idx][15:114])) # sets the amount of characters to be displayed
         print()
     except:
         print("No match found. Please enter another query.")
