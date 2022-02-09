@@ -36,31 +36,34 @@ def rewrite_query(query, d):
 # This function executes a boolean query and displays the results
 
 def bool_query(query):
-    cv = CountVectorizer(lowercase=True, binary=True, token_pattern=r"(?u)\b\w+\b") # token pattern set to one alphanumeric
-    sparse_matrix = cv.fit_transform(corpus_list)
-    sparse_td_matrix = sparse_matrix.T.tocsr()
-    t2i = cv.vocabulary_
+    try:
+        cv = CountVectorizer(lowercase=True, binary=True, token_pattern=r"(?u)\b\w+\b") # token pattern set to one alphanumeric
+        sparse_matrix = cv.fit_transform(corpus_list)
+        sparse_td_matrix = sparse_matrix.T.tocsr()
+        t2i = cv.vocabulary_
 
-    d = {"and": "&", "AND": "&",
-         "or": "|", "OR": "|",
-         "not": "1 -", "NOT": "1 -",
-         "(": "(", ")": ")"}
+        d = {"and": "&", "AND": "&",
+             "or": "|", "OR": "|",
+             "not": "1 -", "NOT": "1 -",
+             "(": "(", ")": ")"}
 
-    hits_matrix = eval(rewrite_query(query, d))
-    hits_list = list(hits_matrix.nonzero()[1])
+        hits_matrix = eval(rewrite_query(query, d))
+        hits_list = list(hits_matrix.nonzero()[1])
 
-    print("Found {} matching documents.".format(len(hits_list)))
-    if len(hits_list) > 0:
-        num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
+        print("Found {} matching documents.".format(len(hits_list)))
+        if len(hits_list) > 0:
+            num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
+            print()
+            for i, doc_idx in enumerate(hits_list):
+                if i > (num_matches-1): # limits the amount of matches displayed
+                    break
+                print("Match {:d}: {:10s} -> {:s}".format(i+1, name_list[doc_idx], corpus_list[doc_idx][:99])) # sets the amount of characters to be displayed
+            print()
+        else:
+            pass
+    except:
+        print("Found {} matching documents.".format(0))
         print()
-        for i, doc_idx in enumerate(hits_list):
-            if i > (num_matches-1): # limits the amount of matches displayed
-                break
-            print("Match {:d}: {:10s} -> {:s}".format(i+1, name_list[doc_idx], corpus_list[doc_idx][:99])) # sets the amount of characters to be displayed
-        print()
-    else:
-        pass
-
 
 
 def ranked_query(query):
