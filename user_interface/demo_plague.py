@@ -30,4 +30,4 @@ def search():
                 matches.append(entry)
 
     #Render index.html with matches variable
-    return render_template('index.html', matches=matches)
+    return render_template('plague.html', matches=matches)
