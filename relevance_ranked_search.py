@@ -62,7 +62,7 @@ def bool_query(query):
         else:
             pass
     except:
-        print("Found {} matching documents.".format(0))
+        print("An error occurred.")
         print()
 
 
@@ -83,12 +83,18 @@ def ranked_query(query):
                    reverse=True)
 
     # Output result
-        print("Your query '{:s}' matches the following documents:".format(query))
+        print("Found {} matching documents.".format(len(ranked_scores_and_doc_ids)))
+        if len(ranked_scores_and_doc_ids) > 0:
+            num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
+            print()
+        print("These are the {} most relevant matches to your query '{:s}':".format(num_matches, query))
         for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
+            if i > (num_matches-1):
+                break
             print("Match {:d}: (score: {:.4f}): {:s}".format(i+1, score, name_list[doc_idx]))
         print()
     except:
-        print("Found {} matching documents.".format(0))
+        print("An error occurred.")
         print()
 
 # This is the main program.
