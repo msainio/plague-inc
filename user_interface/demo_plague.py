@@ -12,27 +12,24 @@ from bs4 import BeautifulSoup
 #Initialize Flask instance
 app = Flask(__name__)
 
-url = "../../data/enwiki-1000-corpus.txt"
+url = "../data/enwiki-1000-corpus.txt"
 
 corpus_list = []
 name_list = []
 list = []
 
-try:
-    document = open(url, "r")
-    corpus = document.read().replace('\n', ' ')
-    document.close()
-    soup = BeautifulSoup(corpus, "html.parser")
-    for article in soup.find_all('article'):
-        corpus_list.append(article.contents.pop())
-        name_list.append(article.get('name'))
+document = open(url, "r")
+corpus = document.read().replace('\n', ' ')
+document.close()
+soup = BeautifulSoup(corpus, "html.parser")
+for article in soup.find_all('article'):
+    corpus_list.append(article.contents.pop())
+    name_list.append(article.get('name'))
 
-except FileNotFoundError:
-    print("One or more of the input documents was not found.")
 
 # create a list of dictionaries where {'article': xxx, 'content': yyy} as per the miau1 example
 for i,j in zip(name_list, corpus_list):
-    list.append({'article': i, 'content': j})
+    list.append({"article": i, "content": j})
 
 
 #Function search() is associated with the address base URL + "/search"
@@ -41,6 +38,7 @@ def search():
 
     #Get query from URL variable
     query = request.args.get('query')
+    print(query)
 
     #Initialize list of matches
     matches = []
@@ -50,8 +48,8 @@ def search():
         #Look at each entry in the example data
         for entry in list:
             #If an entry name contains the query, add the entry to matches
-            if query.lower() in entry['article'].lower():
+            if query.lower() in entry["content"].lower():
                 matches.append(entry)
 
     #Render index.html with matches variable
-    return render_template('plague.html', matches=matches)
+    return render_template('plague.html', matches=matches),list

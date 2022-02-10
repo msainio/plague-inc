@@ -4,22 +4,45 @@
     <meta charset='UTF-8'>
     <title>The amazing and frightening search engine</title>
     <link rel="stylesheet" href="./plague_styles.css">
+<style>
+table, th, td {
+  border: 1px hidden;
+  border-collapse: collapse;
+}
+th, td {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 40px;
+}
+</style>
 </head>
 
 <body>
+    <h3>hey :) the plague doctors welcome you! </h3>
     <h1>Enter a query</h1>
     <form>
         <input type= "text" name="query" autofocus>
         <input type="submit" value="Search">
     </form>
+    <p>we were able to find {{matches|length}} matches in total:
+    </p> 
+    <table>
+        <tr>
+            <th>Name of Article</th>
+            <th>Content ... </th>
+        </tr>
+        {% for item in matches %}
+        <tr>
+            <td style="color:red;">{{ item["article"] }}</td>
+            <td>{{ item["content"][:1000] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
 
 <p>
-</p>
-
-
-
-<p>
-    
 </p>
 
 </body>
