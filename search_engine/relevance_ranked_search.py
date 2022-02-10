@@ -21,9 +21,13 @@ try:
     for article in soup.find_all('article'):
         corpus_list.append(article.contents.pop())
         name_list.append(article.get('name'))
+    if len(corpus_list) < 1:
+        raise FileNotFoundError
 
 except FileNotFoundError:
-    print("One or more of the input documents was not found.")
+    print("The input document was not found or could not be read.")
+    print("Exiting program...")
+    exit()
 
 # These functions are used by the boolean search function to parse the query entered by the user
 
@@ -53,6 +57,10 @@ def bool_query(query):
         print("Found {} matching documents.".format(len(hits_list)))
         if len(hits_list) > 0:
             num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
+            if num_matches > len(hits_list):
+                print("Amount exceeds total number of matches. Displaying all matches")
+            else:
+                pass
             print()
             for i, doc_idx in enumerate(hits_list):
                 if i > (num_matches-1): # limits the amount of matches displayed
@@ -86,6 +94,10 @@ def ranked_query(query):
         print("Found {} matching documents.".format(len(ranked_scores_and_doc_ids)))
         if len(ranked_scores_and_doc_ids) > 0:
             num_matches = int(input("Please enter the maximum amount of matches to be displayed: "))
+            if num_matches > len(ranked_scores_and_doc_ids):
+                print("Amount exceeds total number of matches. Displaying all matches.")
+            else:
+                pass
             print()
         print("These are the {} most relevant matches to your query '{:s}':".format(num_matches, query))
         for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
