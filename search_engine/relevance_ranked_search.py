@@ -8,7 +8,7 @@ import re
 from bs4 import BeautifulSoup
 
 # Here we define the dataset for the search engine
-url = "enwiki-1000-corpus.txt"
+url = "../data/enwiki-1000-corpus.txt"
 
 corpus_list = []
 name_list = []
