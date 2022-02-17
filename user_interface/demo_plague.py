@@ -26,30 +26,27 @@ for article in soup.find_all('article'):
     corpus_list.append(article.contents.pop())
     name_list.append(article.get('name'))
 
-
-# create a list of dictionaries where {'article': xxx, 'content': yyy} as per the miau1 example
+    # create a list of dictionaries where {'article': xxx, 'content': yyy} as per the miau1 example
 for i,j in zip(name_list, corpus_list):
     list.append({"article": i, "content": j})
-
-
+print(list[:2])
 #Function search() is associated with the address base URL + "/search"
 @app.route('/search')
+
 def search():
-
-    #Get query from URL variable
-    query = request.args.get('query')
-    print(query)
-
-    #Initialize list of matches
     matches = []
+    query = request.args.get('query')
 
-    #If query exists (i.e. is not None)
+
+    gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
+    g_matrix = gv.fit_transform(corpus_list).T.tocsr()
     if query:
-        #Look at each entry in the example data
-        for entry in list:
-            #If an entry name contains the query, add the entry to matches
-            if query.lower() in entry["content"].lower():
-                matches.append(entry)
+        query_vec = gv.transform([ query ]).tocsc()
+        hits = np.dot(query_vec, g_matrix)
+        ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
+        for entry, (score, id) in enumerate(ranked_scores_and_doc_ids):
+            matches.append(entry)
 
     #Render index.html with matches variable
-    return render_template('plague.html', matches=matches),list
+    return render_template('plague.html', matches=matches)
+

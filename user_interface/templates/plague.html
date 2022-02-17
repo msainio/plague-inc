@@ -38,8 +38,8 @@ we were able to find {{matches|length}} matches in total:
             </tr>
             {% for item in matches %}
             <tr>
-                <td style="color:red;">{{ item["article"] }}</td>
-                <td>{{ item["content"][:1000] }}</td>
+                <td style="color:red;">{{ item }}</td>
+                <td>{{ item["content"] }}</td>
             </tr>
             {% endfor %}
          </table>

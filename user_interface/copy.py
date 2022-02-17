@@ -1,6 +1,3 @@
-from flask import Flask, render_template, request
-
-# i (ines) just copied all the imports from the relevance-ranked search engine, we probably don't need all of them
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import math
@@ -9,16 +6,13 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
-#Initialize Flask instance
-app = Flask(__name__)
-
 url = "../data/enwiki-1000-corpus.txt"
 
 corpus_list = []
 name_list = []
 list = []
 
-def make_list():
+try:
     document = open(url, "r")
     corpus = document.read().replace('\n', ' ')
     document.close()
@@ -30,14 +24,13 @@ def make_list():
     # create a list of dictionaries where {'article': xxx, 'content': yyy} as per the miau1 example
     for i,j in zip(name_list, corpus_list):
         list.append({"article": i, "content": j})
-    return list
+except:
+    pass
 
-#Function search() is associated with the address base URL + "/search"
-@app.route('/search')
 
 def search():
     matches = []
-    query = request.args.get('query')
+    query = 'hero'
 
 
     gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
@@ -48,7 +41,7 @@ def search():
         ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
         for x, (score, id) in enumerate(ranked_scores_and_doc_ids):
             matches.append(entry)
+    print(matches)
 
     #Render index.html with matches variable
-    return render_template('plague.html', matches=matches)
-
+    #return render_template('plague.html', matches=matches)

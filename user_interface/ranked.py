@@ -38,19 +38,16 @@ def ranked_query(query):
     hits = np.dot(query_vec, g_matrix)
 
     # Rank hits
-    try:
-        ranked_scores_and_doc_ids = \
-            sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]),
-                   reverse=True)
+    ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
 
     # Output result
-        print("Found {} matching documents.".format(len(ranked_scores_and_doc_ids)))
-        for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
-            if i > (num_matches-1):
-                break
-            print("Match {:d}: (score: {:.4f}): {:s}".format(i+1, score, name_list[doc_idx]))
-    except:
-        print("An error occurred.")
+#        print("Found {} matching documents.".format(len(ranked_scores_and_doc_ids)))
+#        for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
+#            if i > (num_matches-1):
+#                break
+#            print("Match {:d}: (score: {:.4f}): {:s}".format(i+1, score, name_list[doc_idx]))
+#    except:
+#        print("An error occurred.")
 
 # This is the main program.
 def main():
