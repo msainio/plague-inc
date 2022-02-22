@@ -2,7 +2,7 @@
 from sklearn.feature_extraction.text import CountVectorizer
 
 # Here we define the dataset for the search engine
-url = "enwiki-corpus.txt"
+url = "../data/enwiki-1000-corpus.txt"
 
 corpus_list = []
 name_list = []
@@ -19,7 +19,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
-document = open("enwiki-corpus.txt", "r")
+document = open(url, "r")
 corpus = document.read().replace('\n', ' ')
 document.close()
 soup = BeautifulSoup(corpus, "html.parser")
