@@ -28,7 +28,7 @@ for article in soup.find_all('article'):
 
     # create a list of dictionaries where {'article': xxx, 'content': yyy} as per the miau1 example
 for i,j in zip(name_list, content_list):
-    list.append({"article": i, "content": j, "ranked value": ''})
+    list.append(dict({"article": i, "innehåll": j, "ranked value": ''}))
 
 #Function search() is associated with the address base URL + "/search"
 @app.route('/search')
@@ -46,7 +46,7 @@ def search():
         ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
         for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
             for x in range(len(list)):
-                if content_list[doc_idx] in list[x]['content']:
+                if content_list[doc_idx] in list[x]['innehåll']:
                     list[x]['ranked value'] += str(score)
                     matches.append('{}'.format(list[x]))
         print(len(matches))
