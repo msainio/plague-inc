@@ -32,14 +32,11 @@ th, td {
         <input type= "text" name="query" autofocus>
         <input type="submit" value="Search">
     </form>
-
     <p>  
     {% if matches is defined and matches|length > 0 %}
 
 we were able to find <b>{{matches|length}}</b> total matches to {{ query }} :
-    </p>
-    <p>
-<td><img src="/static/bar_graph.png" style="width: 400px; height 100%"></td>  
+  
         <table>
             <tr>
                 <th>best match</th>

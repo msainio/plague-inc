@@ -29,7 +29,7 @@ for article in soup.find_all('article'):
 
     # create a list of dictionaries where {'article': xxx, 'content': yyy} as per the miau1 example
 for i,j in zip(name_list, content_list):
-    list.append(dict({"article": i, "innehåll": j, "ranked value": ''}))
+    list.append(dict({"article": i, "innehåll": j, "ranked value": '', 'hits in document': ''}))
 
 #Function search() is associated with the address base URL + "/search"
 @app.route('/search')
@@ -50,17 +50,18 @@ def search():
                 if content_list[doc_idx] in list[x]['innehåll']:
                     list[x]['ranked value'] += str(score)
                     matches.append(list[x])
-        print(len(matches))
 
         fig = plt.figure()
-        ax = fig.add_axes([0,0,1,1])
-        ids = []
         scores = []
         for i in matches:
-            ids.append(i['article'])
-            scores.append(i['ranked value'])
-        ax.bar(ids, scores)
-        fig.savefig('data/bar_graph.png')
+            scores.append(float(i['ranked value']))
+        if len(scores) > 20:
+            scores = scores[:20]
+        ranks = []
+        for i in range(1,(len(scores)+1)):
+            ranks.append(str(i))
+        plt.bar(ranks, scores)
+        fig.savefig('static/bar_graph.png', dpi=200)
 
     #Render index.html with matches variable
     return render_template('plague.html', matches=matches)

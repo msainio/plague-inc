@@ -46,21 +46,13 @@ def search():
                     matches.append(list[x])
 
 
-#    for item in matches:
-#        print(dict(item.keys()))
-
     ids = []
     scores = []
     for i in matches:
         ids.append(i['article'])
         scores.append(i['ranked value'])
-    print(ids)
-    print(scores)
+#    print(ids)
+#    print(scores)
 
-#    for x in range(len(matches)):
-#        print(matches[x][:100])
-#    print(len(matches))
-#    print('{}\n{}'.format(list[1], list[2]))
-
-
+    print(hits[0])
 search()
