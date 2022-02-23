@@ -42,14 +42,20 @@ def search():
             for x in range(len(list)):
                 if content_list[doc_idx] in list[x]['content']:
                     list[x]['ranked value'] += str(score)
-                    print(list[x])
+                    #print(list[x])
                     matches.append(list[x])
 
 
 #    for item in matches:
 #        print(dict(item.keys()))
 
-    print(matches)
+    ids = []
+    scores = []
+    for i in matches:
+        ids.append(i['article'])
+        scores.append(i['ranked value'])
+    print(ids)
+    print(scores)
 
 #    for x in range(len(matches)):
 #        print(matches[x][:100])

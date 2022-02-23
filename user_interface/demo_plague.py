@@ -8,7 +8,7 @@ import numpy as np
 import requests
 import re
 from bs4 import BeautifulSoup
-import mathplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 #Initialize Flask instance
 app = Flask(__name__)
@@ -52,12 +52,15 @@ def search():
                     matches.append(list[x])
         print(len(matches))
 
-    fig = plt.figure()
-    ax = fig.add_axes([0,0,1,1])
-    scores = ranked_scores_and_docs_ids[0]
-    ids = ranked_scores_and_doc_ids[1]
-    ax.bar(ids, scores)
-    plt.show()
+        fig = plt.figure()
+        ax = fig.add_axes([0,0,1,1])
+        ids = []
+        scores = []
+        for i in matches:
+            ids.append(i['article'])
+            scores.append(i['ranked value'])
+        ax.bar(ids, scores)
+        fig.savefig('data/bar_graph.png')
 
     #Render index.html with matches variable
     return render_template('plague.html', matches=matches)
