@@ -48,9 +48,8 @@ def search():
             for x in range(len(list)):
                 if content_list[doc_idx] in list[x]['innehåll']:
                     list[x]['ranked value'] += str(score)
-                    matches.append('{}'.format(list[x]))
+                    matches.append(list[x])
         print(len(matches))
-        print(matches[0])
 
     #Render index.html with matches variable
     return render_template('plague.html', matches=matches)
