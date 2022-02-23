@@ -46,7 +46,7 @@ we were able to find <b>{{matches|length}}</b> total matches to {{ search_query 
             {% for item in matches %}
                 <tr>
                     <td>
-                        {{ item['ranked value'] }} 
+                        {{ item['ranked value'][:5] }} 
                     </td>
                     <td style="color:red;">
                         {{ item['article'] }}
