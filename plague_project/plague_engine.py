@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 # Initializes the Flask instance
 app = Flask(__name__)
 
-url = "../data/enwiki-1000-corpus.txt"
+url = "data/enwiki-1000-corpus.txt"
 
 content_list = []
 name_list = []
@@ -26,11 +26,11 @@ for article in soup.find_all('article'):
     content_list.append(article.contents.pop())
     name_list.append(article.get('name'))
 
-# Create a list of dictionaries of the form {'article': xxx, 'content': yyy}
+# Creates a list of dictionaries of the form {'article': xxx, 'content': yyy}
 for i,j in zip(name_list, content_list):
     list.append(dict({"article": i, "contents": j, "ranked value": '', 'hits in document': ''}))
 
-# The search() function is assigned to an address composed of the base URL and "/search"
+# Assigns the search function to an address composed of the base URL and "/search"
 @app.route('/search')
 
 def search():
