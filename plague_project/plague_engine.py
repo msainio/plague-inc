@@ -35,6 +35,7 @@ for i,j in zip(name_list, content_list):
 
 def search():
     matches = []
+    scores = []
     search_query = request.args.get('query')
 
     gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
@@ -50,7 +51,6 @@ def search():
                     matches.append(list[x])
 
         fig = plt.figure()
-        scores = []
         for i in matches:
             scores.append(float(i['ranked value']))
         if len(scores) > 20:
