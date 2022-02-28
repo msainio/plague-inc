@@ -52,7 +52,11 @@ def prep():
 
         movies_list.append({'movie': t_nr, 'name': t_name, 'year': t_year, 'genres': t_genre, 'dialogue': ' '.join(lines_stripped[t_nr])})
 
-    print(movies_list[0])
+#    print(movies_list[1]['dialogue'])
+    movies = []
+    for i in movies_list:
+        movies.append(i['dialogue'])
 
+    print(movies[600:602])
 
 prep()
