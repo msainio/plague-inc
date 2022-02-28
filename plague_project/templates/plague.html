@@ -11,10 +11,20 @@ h1 {text-align: center;}
 p {text-align: center;}
 form {text-align: center;}
 
+input.bar {background-color: snow;border-radius: 12px;font-family: 'Courier New', Courier, monospace;font-size: smaller;}
+input.bar:focus {
+    outline: none;
+    border:3px solid gainsboro;
+}
+input.button {background-color: snow;border-radius: 12px;font-family: 'Courier New', Courier, monospace;font-size: smaller;}
+body {background-color:mistyrose;font-family: 'Courier New', monospace;}
 
 table, th, td {
   border: 1px hidden;
   border-collapse: collapse;
+  border-radius: 7px;
+  background-color: snow;
+}
 }
 th, td {
   padding-top: 10px;
@@ -29,8 +39,8 @@ th, td {
     <h3>the plague doctors welcome you! </h3>
     <h1>Enter a query</h1>
     <form>
-        <input type= "text" name="query" autofocus>
-        <input type="submit" value="Search">
+        <input class="bar" type= "text" name="query" autofocus>
+        <input class="button" type="submit" value="Search">
     </form>
 
     <p>  
