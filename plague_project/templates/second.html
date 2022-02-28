@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Plague Doc's search engine</title>
+
+<style>
+
+table, th, td {
+  border: 1px hidden;
+  border-collapse: collapse;
+}
+th, td {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 40px;
+}
+</style>
+</head>
+
+<body>
+    <h3>the plague doctors welcome you! </h3>
+    <h1>Enter a query</h1>
+    <form>
+        <input type= "text" name="query" autofocus>
+        <input type="submit" value="Search">
+    </form>
+    <p>
+    {% if matches is defined and matches|length > 0 %}
+
+we were able to find <b>{{matches|length}}</b> total matches to {{ search_query }}:
+    </p>
+    <p>
+    <table>
+        <tr>
+            {% for items in matches %}
+                <tr>
+                    <td>{{items['ranked value']}} </td>
+                    <td>{{items['articleinnehåll']}}</td>
+                </tr>
+            {% endfor %}
+        </tr>
+     </table>
+     {% endif %}
+     </p>
+
+</body>
+
+</html>
+
