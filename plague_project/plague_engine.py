@@ -30,6 +30,7 @@ for article in soup.find_all('article'):
 for i,j in zip(name_list, content_list):
     list.append(dict({"article": i, "contents": j, "ranked value": '', 'hits in document': ''}))
 """
+
 F_LINES = "data/movies/movie_lines.txt"
 F_TITLES = "data/movies/movie_titles_metadata.txt"
 
@@ -48,9 +49,10 @@ def prep():
     lines_stripped = {}
     for item in lines:
         new_item = re.sub(r'[\+$]{7} ', '', item)
-        new_m = re.sub(r'L\d{1,6} u\d{1,4} (m\d{1,3}) .+', r'\1', new_item)
-        new_c = re.sub(r'L\d{1,6} u\d{1,4} m\d{1,3} ([A-Z\s]+) .+', r'\1', new_item)
-        new_l = re.sub(r'L\d{1,6} u\d{1,4} m\d{1,3} ([A-Z\s]+) (.+)', r'\2', new_item)
+        new_item = re.sub(r'L\d{1,6} u\d{1,4} ', r'', new_item)
+        new_m = re.sub(r'(m\d{1,3}) .+', r'\1', new_item)
+        new_c = re.sub(r'm\d{1,3} ([A-Z\s0-9]+) [A-Za-z.]+', r'\1', new_item)
+        new_l = re.sub(r'm\d{1,3} ([A-Z\s]+) (.+)', r'\2', new_item)
 
         # this creates a list of with ONLY the lines (in a list!)
         if lines_stripped.get(new_m):
@@ -59,7 +61,7 @@ def prep():
             lines_stripped[new_m] = [new_l]
 
 
-    """ if you want the characters and lines (in a dictionary) use this code! """
+        #if you want the characters and lines (in a dictionary) use this code!
         #if lines_stripped.get(new_m):
         #    lines_stripped[new_m].append({'character': new_c, 'line': new_l})
         #else:
@@ -73,9 +75,9 @@ def prep():
     movies_list = []
     for item in titles:
         new_item = re.sub(r'[\+$]{7} ', '', item)
-        t_nr = re.sub(r'(m\d{1,3}).+', r'\1', new_item)
+        t_nr = re.sub(r'(m\d{1,3}) .+', r'\1', new_item)
         t_name = re.sub(r'm\d{1,3} [\+$]{7} (.+) ', r'\1', item)
-        t_year = re.sub(r'.+ [\+$]{7} (\d{4}) .+', r'\1', t_name)
+        t_year = re.sub(r'.+ [\+$]{7} ((19|20)\d{2})\/?I? .+', r'\1', t_name)
         t_name = re.sub(r'[\+$]{7} .+', '', t_name)
         t_genre = re.sub(r'.+ (\[)', r'\1', new_item)
 
@@ -124,4 +126,4 @@ def search():
         fig.savefig('static/bar_graph.png', dpi=200)
 
 # Renders the HTML file and imports the variable 'matches'
-    return render_template('plague.html', matches=matches)
+    return render_template('plague.html', matches=matches, search_query=search_query)
