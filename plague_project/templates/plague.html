@@ -71,6 +71,7 @@ we were able to match <b>{{matches|length}}</b> movie(s) to <b>{{ search_query }
                 <th>Movie</th>
                 <th>Year</th>
                 <th>Dialogue</th>
+                <th>Genre</th>
             </tr>
             {% for item in matches %}
                 <tr>
@@ -84,7 +85,10 @@ we were able to match <b>{{matches|length}}</b> movie(s) to <b>{{ search_query }
                         {{ item['year'] }}
                     </td>
                     <td>
-                        {{ item['dialogue'][:1000] }}
+                        {{ item['dialogue'][:200] }}
+                    </td>
+                    <td>
+                        {{ item['genres'] }}
                     </td>
                 </tr>
             {% endfor %}
@@ -99,6 +103,7 @@ these are the 20 best matches:
                 <th>Movie</th>
                 <th>Year</th>
                 <th>Dialogue</th>
+                <th>Genre</th>
             </tr>
             {% for item in matches[:20] %}
                 <tr>
@@ -113,6 +118,9 @@ these are the 20 best matches:
                     </td>
                     <td>
                         {{ item['dialogue'][:1000] }}
+                    </td>
+                    <td>
+                        {{ item['genres'] }}
                     </td>
                 </tr>
             {% endfor %}
