@@ -12,7 +12,12 @@ p {text-align: center;}
 form {text-align: center;}
 table {text-align: center;}
 
-input.bar {background-color: snow;border-radius: 12px;font-family: 'Courier New', Courier, monospace;font-size: smaller;}
+input.bar {
+    background-color: snow;border-radius: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: smaller;
+}
+
 input.bar:focus {
     outline: none;
     border:3px solid gainsboro;
@@ -88,7 +93,9 @@ we were able to match <b>{{matches|length}}</b> movie(s) to <b>{{ search_query }
                         {{ item['dialogue'][:200] }}
                     </td>
                     <td>
-                        {{ item['genres'] }}
+                        {% for genre in item['genres'] %}
+                        {{ genre }}
+                        {% endfor %}
                     </td>
                 </tr>
             {% endfor %}
@@ -117,7 +124,7 @@ these are the 20 best matches:
                         {{ item['year'] }}
                     </td>
                     <td>
-                        {{ item['dialogue'][:1000] }}
+                        {{ item['dialogue'][:200] }}
                     </td>
                     <td>
                         {{ item['genres'] }}
@@ -125,7 +132,9 @@ these are the 20 best matches:
                 </tr>
             {% endfor %}
          </table>
+<p>
 there are {{matches|length - 20}} matches left! 
+</p>
     {% endif %} 
     {% else %}
        
