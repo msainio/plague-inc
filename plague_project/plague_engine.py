@@ -11,25 +11,6 @@ import matplotlib.pyplot as plt
 
 # Initializes the Flask instance
 app = Flask(__name__)
-"""
-url = "data/enwiki-1000-corpus.txt"
-
-content_list = []
-name_list = []
-list = []
-
-document = open(url, "r")
-corpus = document.read().replace('\n', ' ')
-document.close()
-soup = BeautifulSoup(corpus, "html.parser")
-for article in soup.find_all('article'):
-    content_list.append(article.contents.pop())
-    name_list.append(article.get('name'))
-
-# Creates a list of dictionaries of the form {'article': xxx, 'content': yyy}
-for i,j in zip(name_list, content_list):
-    list.append(dict({"article": i, "contents": j, "ranked value": '', 'hits in document': ''}))
-"""
 
 F_LINES = "data/movies/movie_lines.txt"
 F_TITLES = "data/movies/movie_titles_metadata.txt"
@@ -51,7 +32,7 @@ def prep():
         new_item = re.sub(r'[\+$]{7} ', '', item)
         new_item = re.sub(r'L\d{1,6} u\d{1,4} ', r'', new_item)
         new_m = re.sub(r'(m\d{1,3}) .+', r'\1', new_item)
-        new_c = re.sub(r'm\d{1,3} ([A-Z\s0-9]+) [A-Za-z.]+', r'\1', new_item)
+        new_c = re.sub(r'm\d{1,3} ([A-Z\s0-9\.]+) [A-Za-z.]+', r'\1', new_item)
         new_l = re.sub(r'm\d{1,3} ([A-Z\s]+) (.+)', r'\2', new_item)
 
         # this creates a list of with ONLY the lines (in a list!)
