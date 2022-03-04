@@ -51,7 +51,7 @@ def prep():
         t_name = re.sub(r'[\+$]{7} .+', '', t_name)
         t_genre = re.sub(r'.+ (\[)', r'\1', new_item)
 
-        movies_list.append({'movie': t_nr, 'name': t_name, 'year': t_year, 'genres': t_genre, 'dialogue': ' '.join(lines_stripped[t_nr]), 'score': ''})
+        movies_list.append({'movie': t_nr, 'name': t_name, 'year': t_year, 'genres': t_genre, 'dialogue': '\" \"'.join(lines_stripped[t_nr]), 'score': ''})
 
     return movies_list
 
@@ -93,26 +93,28 @@ def search():
 
         query_vec = gv.transform([ search_query ]).tocsc()
         hits = np.dot(query_vec, g_matrix)
-        ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
+        try:
+            ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
 
-        for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
-            for x in range(len(movies)):
-                if dialogue_list[doc_idx] in movies[x]['dialogue']:
-                    movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
-                    index = movies[x]['dialogue'].find(search_query)
-                    if index != -1:
-                       if index >= 30:
-                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -30: index + 30])
-                          matches.append(movies[x])
-                       elif index < 30:
-                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 60])
-                          matches.append(movies[x])
-                    else:
-                        continue
+            for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
+                for x in range(len(movies)):
+                    if dialogue_list[doc_idx] in movies[x]['dialogue']:
+                        movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
+                        index = movies[x]['dialogue'].find(search_query)
+                        if index != -1:
+                           if index >= 30:
+                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -30: index + 30])
+                              matches.append(movies[x])
+                           elif index < 30:
+                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 60])
+                              matches.append(movies[x])
+                        else:
+                            continue
+            figure(matches, search_query) # creates figure for each search
 
-                    #matches.append(movies[x])
+            # Renders the HTML file and imports the variable 'matches'
+            return render_template('plague.html', matches=matches, search_query=search_query)
 
-    figure(matches, search_query) # creates figure for each search
-
-# Renders the HTML file and imports the variable 'matches'
-    return render_template('plague.html', matches=matches, search_query=search_query)
+        except:
+           # Renders the HTML file and imports the variable 'matches'
+            return render_template('bad_query.html', search_query=search_query)
