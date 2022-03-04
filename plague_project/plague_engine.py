@@ -98,8 +98,19 @@ def search():
         for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
             for x in range(len(movies)):
                 if dialogue_list[doc_idx] in movies[x]['dialogue']:
-                    movies[x]['score'] += str(score)
-                    matches.append(movies[x])
+                    movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
+                    index = movies[x]['dialogue'].find(search_query)
+                    if index != -1:
+                       if index >= 30:
+                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -30: index + 30])
+                          matches.append(movies[x])
+                       elif index < 30:
+                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 60])
+                          matches.append(movies[x])
+                    else:
+                        continue
+
+                    #matches.append(movies[x])
 
     figure(matches, search_query) # creates figure for each search
 
