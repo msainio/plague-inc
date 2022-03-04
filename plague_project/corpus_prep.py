@@ -50,7 +50,7 @@ def prep():
         #        character_lines
 #    print(lines_stripped[0])
 
-    print(lines_stripped)
+    print(lines_stripped[:50])
 
 
     # new structure -> movie number (m), movie name (), year (), genres(['x', 'y'])
