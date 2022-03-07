@@ -102,19 +102,20 @@ def search():
                         movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
                         index = movies[x]['dialogue'].find(search_query)
                         if index != -1:
-                           if index >= 30:
-                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -30: index + 30])
+                           if index < 40:
+                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 80])
                               matches.append(movies[x])
-                           elif index < 30:
-                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 60])
+                           elif index >= 40:
+                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -40: index + 40])
                               matches.append(movies[x])
                         else:
                             continue
             figure(matches, search_query) # creates figure for each search
 
-            # Renders the HTML file and imports the variable 'matches'
+            # Renders the HTML file and imports the variable 'matches' and 'search_query'
             return render_template('plague.html', matches=matches, search_query=search_query)
 
-        except:
-           # Renders the HTML file and imports the variable 'matches'
+        except: # Renders to HTML file for cases with no matches
             return render_template('bad_query.html', search_query=search_query)
+    else:
+        return render_template('plague.html', matches=matches, search_query=search_query)
