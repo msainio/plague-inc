@@ -78,6 +78,7 @@ def search():
     dialogue_list = []
 
     search_query = request.args.get('query')
+    # search_query = search_query.split()
     movies = prep() # returns our list of dictionaries
 
     for i in movies: # making a list containg only the dialogue of each movie
