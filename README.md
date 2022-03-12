@@ -34,7 +34,7 @@ pip install Flask
 
 ### Cloning repository
 
-In 'final_project' directory clone 'plague-inc' git repository and move to 'plague-inc' directory 
+In `final_project` directory clone `plague-inc` git repository and move to `plague-inc` directory 
 
 ```
 git clone https://github.com/msainio/plague-inc
@@ -43,13 +43,13 @@ cd plague-inc
 
 ### Running Flask
 
-First, move to directory 'plague_project':
+First, move to directory `plague_project`:
 
 ```
 cd plague_project
 ```
 
-To run flask, set the following environment variables (also found in file 'flask_vars'):
+To run flask, set the following environment variables (also found in file `flask_vars`):
 
 ```
 export FLASK_APP=plague_engine.py
@@ -79,7 +79,7 @@ Run Flask:
 flask run
 ```
 
-Lastly, copypaste 'http://...' from the line beginning with '* Running on' and add 'search' after the last forward slash.
+Lastly, copypaste `http://...` from the line beginning with `* Running on` and add `search` after the last forward slash.
  
 ## Usage
 
