@@ -92,7 +92,7 @@ Lastly, copypaste 'http://...' from the line beginning with '* Running on' and a
 
 ## License
 
-[MIT]
+[MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 ## Resources found helpful
 
