@@ -85,7 +85,20 @@ Lastly, copypaste 'http://...' from the line beginning with '* Running on' and a
 
 ## Contributors
 
+* Ines Fröjdö (https://github.com/ifrojdo)
+* Aava Latokartano (https://github.com/alatokartano)
+* Annika Rantala (https://github.com/annikarantala)
+* Mitja Sainio (https://github.com/msainio)
+
 ## License
 
+[MIT]
+
 ## Resources found helpful
+
+* [Flask Example](https://github.com/miau1/flask-example/blob/master/README.md)
+* [HTML Tutorial](https://www.w3schools.com/html/)
+* [A Beginners Guide to writing a Kickass README](https://meakaakka.medium.com/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3)
+* [How to Write a Good README File for Your GitHub Project](https://www.freecodecamp.org/news/how-to-write-a-good-readme-file/)
+* [Best-README-Template](https://github.com/othneildrew/Best-README-Template/blob/master/README.md)
 
