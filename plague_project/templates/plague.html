@@ -74,19 +74,19 @@ th, td {
 </head>
 
 <body>
-  <section style="text-align:center">
+  <section>
     <a href="/search"><img src="/static/plaguelogo.png.2" alt="The Plague Engine logo" style="width: 150px; height: 100%; float: left; margin-top: 5em; margin-left: 5em" /></a>
-    <h3><strong> the plague doctors welcome you! </strong></h3>
-    <h1><strong>enter a query</strong></h1>
-    <form><strong>
+    <h3> the plague doctors welcome you! </h3>
+    <h1>enter a query</h1>
+    <form>
       <input class="bar" type= "text" name="query" autofocus>
       <input class="button" type="submit" value="Search">
-    </strong></form>
+    </form>
 
 
 
   {% if matches is defined and matches|length > 0 %}
-    <p><strong>we were able to match <b>{{matches|length}}</b> movie(s) to <b>{{ search_query }}</b>:<strong/></p>
+    <p>we were able to match <b>{{matches|length}}</b> movie(s) to <b>{{ search_query }}</b>:</p>
     <br>
     <img src="/static/pie_chart_{{search_query}}.png" alt="distribution of the genres found in our matched movies" style="width: 600px; height 100%" class="center"></td>
     <p>distribution of genres within the matched movies</p>
