@@ -84,7 +84,7 @@ def figure(matches, search_query):
     ax1.pie(values, labels=labels, autopct='%1.1f%%', pctdistance=1.15, labeldistance=1.35)
     ax1.axis('equal')
 
-    fig1.savefig('static/pie_chart_{}.png'.format(search_query))
+    fig1.savefig('static/pie_chart_{}.png'.format(search_query), transparent=True)
     return
 
 # Assigns the search function to an address composed of the base URL and "/search"
