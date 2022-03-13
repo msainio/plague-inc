@@ -2,7 +2,7 @@
 
 ## About the Project
 
-<p>The Plague Doc's Search Engine is a relevance ranked search engine that uses `The Cornell Movie-Dialogue Corpus` as data. `(source: https://www.kaggle.com/Cornell-University/movie-dialog-corpus)`
+<p>The Plague Doc's Search Engine is a relevance ranked search engine that uses "The Cornell Movie-Dialogue Corpus" as data.
 It allows the user to search for words that appear in movie scripts and displays the best matches in the corpus for
 said search query in order of relevance. The results display the keyword in context,
 the relevance score of the match, the title of the movie, the year of publishing and the genre of the movie.
@@ -14,13 +14,15 @@ Additionally, the results include a pie chart that displays the spread of genres
 * Flask
 * Python 3
 * HTML
+* BeautifulSoup
+* Matplotlib
 
 
 ## Installation and how to run the project
 
 ### Installing flask
 
-First, create a project directory:
+First, in the command line create a project directory:
 
 ```
 mkdir final_project
@@ -82,7 +84,6 @@ flask run
 
 Lastly, copypaste `http://...` from the line beginning with `* Running on` to your browser and add `search` after the last forward slash.
  
-## Usage
 
 ## Contributors
 
@@ -97,6 +98,7 @@ Lastly, copypaste `http://...` from the line beginning with `* Running on` to yo
 
 ## Resources found helpful
 
+* [The Cornell Movie-Dialogue Corpus](source: https://www.kaggle.com/Cornell-University/movie-dialog-corpus)
 * [Flask Example](https://github.com/miau1/flask-example/blob/master/README.md)
 * [HTML Tutorial](https://www.w3schools.com/html/)
 * [A Beginners Guide to writing a Kickass README](https://meakaakka.medium.com/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3)
