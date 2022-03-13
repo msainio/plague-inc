@@ -66,6 +66,21 @@ def prep():
 
     return movies_list
 
+def hits_per_genre(search_query, movies):
+    all_genres = []
+    genres_and_hits = {}
+
+    for movie in movies:
+        hits = re.findall(r'{}'.format(search_query), movie['dialogue'])
+        assigned_genres = movie['genres'].split(",")
+
+        for genre in assigned_genres:
+            if genre not in all_genres:
+                all_genres.append(genre)
+                genres_and_hits[genre] = 0
+            genres_and_hits[genre] += len(hits)
+    return genres_and_hits
+
 # Assigns the search function to an address composed of the base URL and "/search"
 @app.route('/search')
 
@@ -83,6 +98,7 @@ def search():
 
     gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
     g_matrix = gv.fit_transform(dialogue_list).T.tocsr()
+
     if search_query:
         new_matches = []
         matches = new_matches
@@ -94,6 +110,8 @@ def search():
                 if dialogue_list[doc_idx] in movies[x]['dialogue']:
                     movies[x]['score'] += str(score)
                     matches.append(movies[x])
+
+        print(hits_per_genre(search_query, movies))
 
         fig = plt.figure()
         for i in matches:
