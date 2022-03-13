@@ -31,6 +31,7 @@ def prep():
     for item in lines:
         new_item = re.sub(r'[\+$]{7} ', '', item)
         new_item = re.sub(r'L\d{1,6} u\d{1,4} ', r'', new_item)
+        new_item = re.sub(r'</?\w>', r'', new_item)
         new_m = re.sub(r'(m\d{1,3}) .+', r'\1', new_item)
         new_c = re.sub(r'm\d{1,3} ([A-Z\s0-9\.]+) [A-Za-z.]+', r'\1', new_item)
         new_l = re.sub(r'm\d{1,3} ([A-Z\s]+) (.+)', r'\2', new_item)
