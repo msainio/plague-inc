@@ -67,8 +67,8 @@ th, td {
 
 <body>
   <section>
+    <h3><strong> the plague doctors welcome you! </strong></h3>
     <a href="/search"><img src="/static/plaguelogo.png.2" alt="The Plague Engine logo" style="width: 150px; height 100%" float: left /></a>
-    <h3> the plague doctors welcome you! </h3>
     <h1>Enter a query</h1>
     <form>
       <input class="bar" type= "text" name="query" autofocus>
@@ -79,7 +79,7 @@ th, td {
   {% if matches is defined and matches|length > 0 %}
     <p>we were able to match <b>{{matches|length}}</b> movie(s) to <b>{{ search_query }}</b>:
     <br>
-    <td><img src="/static/bar_graph_{{search_query}}.png" style="width: 400px; height 100%"></td>  
+    <td><img src="/static/pie_chart_{{search_query}}.png" style="width: 400px; height 100%"></td>  
     </p>
   <div>
     {% if matches|length < 20 %}
