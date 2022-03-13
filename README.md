@@ -98,7 +98,7 @@ Lastly, copypaste `http://...` from the line beginning with `* Running on` to yo
 
 ## Resources found helpful
 
-* [The Cornell Movie-Dialogue Corpus](source: https://www.kaggle.com/Cornell-University/movie-dialog-corpus)
+* [The Cornell Movie-Dialogue Corpus](https://www.kaggle.com/Cornell-University/movie-dialog-corpus)
 * [Flask Example](https://github.com/miau1/flask-example/blob/master/README.md)
 * [HTML Tutorial](https://www.w3schools.com/html/)
 * [A Beginners Guide to writing a Kickass README](https://meakaakka.medium.com/a-beginners-guide-to-writing-a-kickass-readme-7ac01da88ab3)
