@@ -92,10 +92,12 @@ def figure(matches, search_query):
 def search():
     matches = []
     dialogue_list = []
+    query_list = []
 
 
     search_query = request.args.get('query')
-    #search_query = search_query.split()
+    query_list = search_query.split(' ')
+
 
     movies = prep() # returns our list of dictionaries
 
@@ -104,41 +106,72 @@ def search():
 
     gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
     g_matrix = gv.fit_transform(dialogue_list).T.tocsr()
-
     if search_query:
-        new_matches = [] # creates a fully new matches list for each new search (-> we had some errors with old scores overlapping with new ones)
-        matches = new_matches
+        if query_list[0]:
+            if len(query_list) == 1:
+                new_matches = [] # creates a fully new matches list for each new search (-> we had some errors with old scores overlapping with new ones)
+                matches = new_matches
 
-        #try:
-        query_vec = gv.transform([ search_query ]).tocsc()
-        hits = np.dot(query_vec, g_matrix)
-        ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
+                query_vec = gv.transform([ query_list[0] ]).tocsc()
+                hits = np.dot(query_vec, g_matrix)
+                ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
 
-        for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
-            for x in range(len(movies)):
-                if dialogue_list[doc_idx] in movies[x]['dialogue']:
-                    movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
-                    res = re.search(r'\b{}\b'.format(search_query).lower(), movies[x]['dialogue'].lower())
-                    if res != None:
-                        index = res.start()
-                    else:
-                        index = movies[x]['dialogue'].find(search_query)
-                    if index != -1:
-                       if index < 40:
-                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 80])
-                          matches.append(movies[x])
-                       else:
-                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -40: index + 40])
-                          matches.append(movies[x])
-                    else:
-                        continue
+                for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
+                    for x in range(len(movies)):
+                        if dialogue_list[doc_idx] in movies[x]['dialogue']:
+                             movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
+                             res = re.search(r'\b{}\b'.format(search_query).lower(), movies[x]['dialogue'].lower())
+                             if res != None:
+                                 index = res.start()
+                             else:
+                                 index = movies[x]['dialogue'].find(search_query)
+                             if index != -1:
+                                 if index < 40:
+                                     movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 80])
+                                     matches.append(movies[x])
+                                 else:
+                                     movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -40: index + 40])
+                                     matches.append(movies[x])
+                        else:
+                            continue
 
-        figure(matches, search_query) # creates figure for each search
-
-        # Renders the HTML file and imports the variable 'matches' and 'search_query'
-        return render_template('plague.html', matches=matches, search_query=search_query)
+                    figure(matches, search_query) # creates figure for each search
+              # Renders the HTML file and imports the variable 'matches' and 'search_query'
+                return render_template('plague.html', matches=matches, search_query=search_query)
 
         #except: # Renders to HTML file for cases with no matches
             #return render_template('bad_query.html', search_query=search_query)
+            elif query_list > 1:
+                for j in query_list:
+                    new_matches = []
+
+                    query_vec = gv.transform([ query_list[0] ]).tocsc()
+                    hits = np.dot(query_vec, g_matrix)
+                    ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
+
+                    for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
+                        for x in range(len(movies)):
+                            if dialogue_list[doc_idx] in movies[x]['dialogue']:
+                                movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
+                                res = re.search(r'\b{}\b'.format(search_query).lower(), movies[x]['dialogue'].lower())
+                                if res != None:
+                                    index = res.start()
+                                else:
+                                    index = movies[x]['dialogue'].find(search_query)
+                                if index != -1:
+                                    if index < 40:
+                                        movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 80])
+                                        matches.append(movies[x])
+                                    else:
+                                        movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -40: index + 40])
+                                        matches.append(movies[x])
+                          else:
+                            continue
+
+                    figure(matches, search_query) # creates figure for each search
+
+
+        else:
+            print("no query_list[0]")
     else:
         return render_template('plague.html', matches=matches, search_query=search_query)
