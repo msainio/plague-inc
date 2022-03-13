@@ -55,7 +55,6 @@ def prep():
 
     return movies_list
 
-<<<<<<< HEAD
 def hits_per_genre(search_query, movies):
     all_genres = []
     genres_and_hits = {}
@@ -70,7 +69,6 @@ def hits_per_genre(search_query, movies):
                 genres_and_hits[genre] = 0
             genres_and_hits[genre] += len(hits)
     return genres_and_hits
-=======
 
 def figure(matches, search_query):
     scores = []
@@ -85,7 +83,6 @@ def figure(matches, search_query):
     plt.bar(ranks, scores)
     fig.savefig('static/bar_graph_{}.png'.format(search_query), dpi=200)
     return
->>>>>>> 7560c4bbbec32b7a5f24a2f5bebecd8a28bf12eb
 
 # Assigns the search function to an address composed of the base URL and "/search"
 @app.route('/search')
@@ -111,7 +108,6 @@ def search():
 
         query_vec = gv.transform([ search_query ]).tocsc()
         hits = np.dot(query_vec, g_matrix)
-<<<<<<< HEAD
         ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
         for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
             for x in range(len(movies)):
@@ -121,22 +117,8 @@ def search():
 
         print(hits_per_genre(search_query, movies))
 
-        fig = plt.figure()
-        for i in matches:
-            scores.append(float(i['score']))
-        if len(scores) > 20:
-            scores = scores[:20]
-        ranks = []
-        for i in range(1,(len(scores)+1)):
-            ranks.append(str(i))
-        plt.bar(ranks, scores)
-        fig.savefig('static/bar_graph.png', dpi=200)
-
 # Renders the HTML file and imports the variable 'matches'
     return render_template('plague.html', matches=matches, search_query=search_query)
-=======
-        try:
-            ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
 
             for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
                 for x in range(len(movies)):
@@ -161,4 +143,3 @@ def search():
             return render_template('bad_query.html', search_query=search_query)
     else:
         return render_template('plague.html', matches=matches, search_query=search_query)
->>>>>>> 7560c4bbbec32b7a5f24a2f5bebecd8a28bf12eb
