@@ -2,7 +2,7 @@
 
 ## About the Project
 
-<p>The Plague Doc's Search Engine is a relevance ranked search engine that uses (corpus here) as data.
+<p>The Plague Doc's Search Engine is a relevance ranked search engine that uses `The Cornell Movie-Dialogue Corpus` as data. `(source: https://www.kaggle.com/Cornell-University/movie-dialog-corpus)`
 It allows the user to search for words that appear in movie scripts and displays the best matches in the corpus for
 said search query in order of relevance. The results display the keyword in context,
 the relevance score of the match, the title of the movie, the year of publishing and the genre of the movie.</p>
