@@ -109,7 +109,7 @@ def search():
         new_matches = [] # creates a fully new matches list for each new search (-> we had some errors with old scores overlapping with new ones)
         matches = new_matches
 
-       #try:
+        #try:
         query_vec = gv.transform([ search_query ]).tocsc()
         hits = np.dot(query_vec, g_matrix)
         ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
