@@ -6,7 +6,6 @@ import math
 import numpy as np
 import requests
 import re
-from bs4 import BeautifulSoup
 import matplotlib.pyplot as plt
 
 # Initializes the Flask instance
@@ -93,6 +92,7 @@ def figure(matches, search_query):
 def search():
     matches = []
     dialogue_list = []
+
 
     search_query = request.args.get('query')
     #search_query = search_query.split()
