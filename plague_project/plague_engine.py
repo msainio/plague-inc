@@ -51,7 +51,7 @@ def prep():
         t_name = re.sub(r'[\+$]{7} .+', '', t_name)
         t_genre = re.sub(r'.+ (\[)', r'\1', new_item)
 
-        movies_list.append({'movie': t_nr, 'name': t_name, 'year': t_year, 'genres': t_genre, 'dialogue': '\" \"'.join(lines_stripped[t_nr].lower()), 'score': ''})
+        movies_list.append({'movie': t_nr, 'name': t_name, 'year': t_year, 'genres': t_genre, 'dialogue': '\" \"'.join(lines_stripped[t_nr]), 'score': ''})
 
     return movies_list
 
