@@ -118,7 +118,11 @@ def search():
             for x in range(len(movies)):
                 if dialogue_list[doc_idx] in movies[x]['dialogue']:
                     movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
-                    index = movies[x]['dialogue'].find(search_query)
+                    res = re.search(r'\b{}\b'.format(search_query), movies[x]['dialogue'])
+                    if res != None:
+                        index = res.start()
+                    else:
+                        index = movies[x]['dialogue'].find(search_query)
                     if index != -1:
                        if index < 40:
                           movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 80])
