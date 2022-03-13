@@ -83,7 +83,9 @@ th, td {
       <input class="button" type="submit" value="Search">
     </form>
 
-
+{% for entry in matches %}
+    {{entry['movie']}}
+{% endfor %}
 
   {% if matches is defined and matches|length > 0 %}
     <p>we were able to match <b>{{matches|length}}</b> movie(s) to <b>{{ search_query }}</b>:</p>
