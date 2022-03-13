@@ -5,7 +5,8 @@
 <p>The Plague Doc's Search Engine is a relevance ranked search engine that uses `The Cornell Movie-Dialogue Corpus` as data. `(source: https://www.kaggle.com/Cornell-University/movie-dialog-corpus)`
 It allows the user to search for words that appear in movie scripts and displays the best matches in the corpus for
 said search query in order of relevance. The results display the keyword in context,
-the relevance score of the match, the title of the movie, the year of publishing and the genre of the movie.</p>
+the relevance score of the match, the title of the movie, the year of publishing and the genre of the movie.
+Additionally, the results include a pie chart that displays the spread of genres represented by the matched movies.</p>
 <p>This is our final project for the course "Building NLP Applications (2022)" (KIK-LG211) at th University of Helsinki.</p>
 
 ## Built Using
@@ -26,10 +27,10 @@ mkdir final_project
 cd final_project
 ```
 
-Install flask:
+Install Flask:
 
 ```
-pip install Flask
+pip install flask
 ```
 
 ### Cloning repository
@@ -79,7 +80,7 @@ Run Flask:
 flask run
 ```
 
-Lastly, copypaste `http://...` from the line beginning with `* Running on` and add `search` after the last forward slash.
+Lastly, copypaste `http://...` from the line beginning with `* Running on` to your browser and add `search` after the last forward slash.
  
 ## Usage
 
