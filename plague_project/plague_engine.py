@@ -80,7 +80,7 @@ def figure(matches, search_query):
         values.append(value)
 
     fig1, ax1 = plt.subplots()
-    ax1.pie(values, labels=labels, autopct='%1.1f%%')
+    ax1.pie(values, labels=labels, autopct='%1.1f%%', pctdistance=1.1, labeldistance=1.3)
     ax1.axis('equal')
 
     fig1.savefig('static/pie_chart_{}.png'.format(search_query))
