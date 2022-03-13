@@ -86,13 +86,12 @@ def figure(matches, search_query):
     fig1.savefig('static/pie_chart_{}.png'.format(search_query), transparent=True)
     return
 
-# Assigns the search function to an address composed of the base URL and "/search"
+# Assigns the search functions to an address composed of the base URL and "/search"
 @app.route('/search')
 
 def search():
     matches = []
     dialogue_list = []
-
 
     search_query = request.args.get('query')
     #search_query = search_query.split()
