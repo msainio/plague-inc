@@ -72,26 +72,19 @@ def matches_per_genre(search_query, matches):
 def figure(matches, search_query):
     genres_listed = matches_per_genre(search_query, matches)
 
-    genres = genres_listed.keys()
-    values = genres_listed.values()
+    labels = []
+    for genre in genres_listed.keys():
+        labels.append(genre)
+    values = []
+    for value in genres_listed.values():
+        values.append(value)
 
     fig1, ax1 = plt.subplots()
-    ax1.pie(values, genres=genres, autopct='%1.1f%%', shadow=True, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    ax1.pie(values, labels=labels, autopct='%1.1f%%')
+    ax1.axis('equal')
 
-    fig.savefig('static/pie_chart_{}.png'.format(search_query), dpi=200)
+    fig1.savefig('static/pie_chart_{}.png'.format(search_query))
     return
-
-"""
-    fig = plt.figure()
-    for i in matches:
-        scores.append(float(i['score']))
-    if len(scores) > 20:
-        scores = scores[:20]
-    for i in range(1,(len(scores)+1)):
-        ranks.append(str(i))
-    plt.bar(ranks, scores)
-"""
 
 # Assigns the search function to an address composed of the base URL and "/search"
 @app.route('/search')
@@ -101,12 +94,12 @@ def search():
     dialogue_list = []
 
     search_query = request.args.get('query')
-    # search_query = search_query.split()
+    #search_query = search_query.split()
+
     movies = prep() # returns our list of dictionaries
 
     for i in movies: # making a list containg only the dialogue of each movie
         dialogue_list.append(i['dialogue'])
-
 
     gv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
     g_matrix = gv.fit_transform(dialogue_list).T.tocsr()
@@ -115,33 +108,32 @@ def search():
         new_matches = [] # creates a fully new matches list for each new search (-> we had some errors with old scores overlapping with new ones)
         matches = new_matches
 
-        try:
-            query_vec = gv.transform([ search_query ]).tocsc()
-            hits = np.dot(query_vec, g_matrix)
-            ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
+       #try:
+        query_vec = gv.transform([ search_query ]).tocsc()
+        hits = np.dot(query_vec, g_matrix)
+        ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
 
-            for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
-                for x in range(len(movies)):
-                    if dialogue_list[doc_idx] in movies[x]['dialogue']:
-                        movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
-                        index = movies[x]['dialogue'].find(search_query)
-                        if index != -1:
-                           if index < 40:
-                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 80])
-                              matches.append(movies[x])
-                           else:
-                              movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -40: index + 40])
-                              matches.append(movies[x])
-                        else:
-                            continue
+        for i, (score, doc_idx) in enumerate(ranked_scores_and_doc_ids):
+            for x in range(len(movies)):
+                if dialogue_list[doc_idx] in movies[x]['dialogue']:
+                    movies[x]['score'] += str(score) # appends the score to those movie entries that match the query
+                    index = movies[x]['dialogue'].find(search_query)
+                    if index != -1:
+                       if index < 40:
+                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][0: index + 80])
+                          matches.append(movies[x])
+                       else:
+                          movies[x]['dialogue'] = "...{}...".format(movies[x]['dialogue'][index -40: index + 40])
+                          matches.append(movies[x])
+                    else:
+                        continue
 
-            figure(matches, search_query) # creates figure for each search
+        figure(matches, search_query) # creates figure for each search
 
+        # Renders the HTML file and imports the variable 'matches' and 'search_query'
+        return render_template('plague.html', matches=matches, search_query=search_query)
 
-            # Renders the HTML file and imports the variable 'matches' and 'search_query'
-            return render_template('plague.html', matches=matches, search_query=search_query)
-
-        except: # Renders to HTML file for cases with no matches
-            return render_template('bad_query.html', search_query=search_query)
+        #except: # Renders to HTML file for cases with no matches
+            #return render_template('bad_query.html', search_query=search_query)
     else:
         return render_template('plague.html', matches=matches, search_query=search_query)
