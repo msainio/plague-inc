@@ -55,24 +55,34 @@ def prep():
 
     return movies_list
 
-def hits_per_genre(search_query, matches):
+def matches_per_genre(search_query, matches):
     all_genres = []
-    genres_and_hits = {}
+    genres_listed = {}
 
     for movie in matches:
-        hits = re.findall(r'{}'.format(search_query), movie['dialogue'])
-        assigned_genres = re.sub(r'[\[\]\,\']', '', movie['genres'])
+        assigned_genres = re.sub(r'[\[\]\'\s]', '', movie['genres'])
 
-        for genre in assigned_genres.split(' '):
+        for genre in assigned_genres.split(','):
             if genre not in all_genres:
                 all_genres.append(genre)
-                genres_and_hits[genre] = 0
-            genres_and_hits[genre] += len(hits)
-    return genres_and_hits
+                genres_listed[genre] = 0
+            genres_listed[genre] += 1
+    return genres_listed
 
 def figure(matches, search_query):
-    scores = []
-    ranks = []
+    genres_listed = matches_per_genre(search_query, matches)
+
+    genres = genres_listed.keys()
+    values = genres_listed.values()
+
+    fig1, ax1 = plt.subplots()
+    ax1.pie(values, genres=genres, autopct='%1.1f%%', shadow=True, startangle=90)
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    fig.savefig('static/pie_chart_{}.png'.format(search_query), dpi=200)
+    return
+
+"""
     fig = plt.figure()
     for i in matches:
         scores.append(float(i['score']))
@@ -81,8 +91,7 @@ def figure(matches, search_query):
     for i in range(1,(len(scores)+1)):
         ranks.append(str(i))
     plt.bar(ranks, scores)
-    fig.savefig('static/bar_graph_{}.png'.format(search_query), dpi=200)
-    return
+"""
 
 # Assigns the search function to an address composed of the base URL and "/search"
 @app.route('/search')
@@ -127,7 +136,8 @@ def search():
                             continue
 
             figure(matches, search_query) # creates figure for each search
-            print(hits_per_genre(search_query, matches))
+
+
             # Renders the HTML file and imports the variable 'matches' and 'search_query'
             return render_template('plague.html', matches=matches, search_query=search_query)
 
